@@ -12,16 +12,16 @@ export default function App() {
     if (contactList !== null) {
       return JSON.parse(contactList);
     }
-    return {
-      initialPhoneBook,
-    };
+    return JSON.parse(initialPhoneBook);
   });
 
   const [filter, setFilter] = useState('');
-  const showContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(filter.toLowerCase())
-  );
+  const showContacts = Object.values(contacts).filter(contact => {
+    contact.name.toLowerCase().includes(filter.toLowerCase());
+    console.log(contact);
+  });
 
+  console.log(typeof Object.keys(contacts));
   const handleDelete = taskID => {
     setContacts(prev => {
       return prev.filter(task => task.id !== taskID);
