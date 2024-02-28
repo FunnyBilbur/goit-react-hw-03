@@ -17,7 +17,7 @@ export default function App() {
     };
   });
 
-  const [filter, setFilter] = useState('');
+  const [filter, setFilter] = useState(' ');
 
   const showContacts = Object.values(contacts).filter(contact =>
     contact.name.toLowerCase().includes(filter.toLowerCase())
