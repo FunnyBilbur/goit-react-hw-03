@@ -1,68 +1,51 @@
 import './App.css';
 import { useState, useEffect } from 'react';
-import Options from './Options/Options';
-import Description from './Description/Description';
-import Feedback from './Feedback/Feedback';
-import Notification from './Notification/Notification';
+import initialPhoneBook from './phonebook.json';
+import ContactForm from './ContactForm/ContactForm';
+import SearchBox from './SearchBox/SearchBox';
+import ContactList from './ContactList/ContactList';
 
 export default function App() {
-  //useState for values{good, neutral, bad}
-  const [value, setValue] = useState(() => {
-    //get value from localStorage or set default 0, 0, 0
-    const feedbackValues = window.localStorage.getItem('feedback-values');
-    if (feedbackValues !== null) {
-      return JSON.parse(feedbackValues);
+  // const [contacts, setContacts] = useState(initialPhoneBook);
+  const [contacts, setContacts] = useState(() => {
+    const contactList = window.localStorage.getItem('contacts');
+    if (contactList !== null) {
+      return JSON.parse(contactList);
     }
     return {
-      good: 0,
-      neutral: 0,
-      bad: 0,
+      initialPhoneBook,
     };
   });
 
+  const [filter, setFilter] = useState('');
+
+  const showContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(filter.toLowerCase())
+  );
+
+  const handleDelete = taskID => {
+    setContacts(prev => {
+      return prev.filter(task => task.id !== taskID);
+    });
+  };
+
+  const onAdd = newObj => {
+    setContacts(prev => {
+      return [...prev, newObj];
+    });
+  };
+
   //onUpdate value - update localStorage
   useEffect(() => {
-    window.localStorage.setItem('feedback-values', JSON.stringify(value));
-  }, [value]);
-
-  //update feedback depands of feedbackType through setValue from useState
-  const updateFeedback = feedbackType => {
-    setValue({
-      ...value,
-      [feedbackType]: value[feedbackType] + 1,
-    });
-  };
-
-  //reset value through setValue(0,0,0)
-  const resetFeedback = () => {
-    setValue({
-      good: 0,
-      neutral: 0,
-      bad: 0,
-    });
-  };
-  //destructure elements from value
-  const { good, neutral, bad } = value;
-
-  //count totalFeedback
-  const totalFeedback = good + neutral + bad;
+    window.localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts]);
 
   return (
     <div>
-      <Description></Description>
-      <Options
-        onGoodAction={() => updateFeedback('good')}
-        onNeutralAction={() => updateFeedback('neutral')}
-        onBadAction={() => updateFeedback('bad')}
-        onReset={resetFeedback}
-        totalValue={totalFeedback}
-      ></Options>
-
-      {totalFeedback === 0 ? (
-        <Notification></Notification>
-      ) : (
-        <Feedback getValue={value} totalValue={totalFeedback}></Feedback>
-      )}
+      <h1>Phonebook</h1>
+      <ContactForm onAdd={onAdd}></ContactForm>
+      <SearchBox value={filter} onFilter={setFilter}></SearchBox>
+      <ContactList contacts={showContacts} onDelete={handleDelete}></ContactList>
     </div>
   );
 }
