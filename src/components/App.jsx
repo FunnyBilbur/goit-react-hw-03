@@ -10,12 +10,12 @@ const initialObj = [];
 export default function App() {
   // const [contacts, setContacts] = useState(initialPhoneBook);
   const [contacts, setContacts] = useState(() => {
-    const contactList = window.localStorage.getItem('contacts');
+    const contactList = localStorage.getItem('contacts');
     console.log(contactList == null);
-    if (contactList == null) {
+    if (contactList !== null) {
       return JSON.parse(contactList);
     }
-    return initialPhoneBook;
+    return initialObj;
   });
 
   const [filter, setFilter] = useState('');
@@ -37,7 +37,7 @@ export default function App() {
 
   //onUpdate value - update localStorage
   useEffect(() => {
-    window.localStorage.setItem('contacts', JSON.stringify(contacts));
+    localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
 
   return (
