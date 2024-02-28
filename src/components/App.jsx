@@ -17,7 +17,7 @@ export default function App() {
     };
   });
 
-  const [filter, setFilter] = useState(' ');
+  const [filter, setFilter] = useState('text');
   const dynamicFilter = filter.toLowerCase();
   const showContacts = Object.values(contacts).filter(contact =>
     contact.name.toLowerCase().includes(dynamicFilter)
