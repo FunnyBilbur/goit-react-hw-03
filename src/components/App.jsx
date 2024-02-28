@@ -5,16 +5,17 @@ import ContactForm from './ContactForm/ContactForm';
 import SearchBox from './SearchBox/SearchBox';
 import ContactList from './ContactList/ContactList';
 
+const initialObj = [];
+
 export default function App() {
   // const [contacts, setContacts] = useState(initialPhoneBook);
   const [contacts, setContacts] = useState(() => {
     const contactList = window.localStorage.getItem('contacts');
-    if (contactList !== null) {
+    console.log(contactList == null);
+    if (contactList == null) {
       return JSON.parse(contactList);
     }
-    return {
-      initialPhoneBook,
-    };
+    return initialPhoneBook;
   });
 
   const [filter, setFilter] = useState('');
@@ -22,7 +23,6 @@ export default function App() {
     contact.name.toLowerCase().includes(filter.toLowerCase())
   );
 
-  console.log(typeof contacts);
   const handleDelete = taskID => {
     setContacts(prev => {
       return prev.filter(task => task.id !== taskID);
