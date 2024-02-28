@@ -20,7 +20,7 @@ export default function App() {
   const [filter, setFilter] = useState('');
 
   const showContacts = Object.values(contacts).filter(contact => {
-    return contact.name.toLowerCase().includes(filter.toLowerCase());
+    return contact.name.toLowerCase().includes(Object.values(filter.toLowerCase()));
   });
 
   const handleDelete = taskID => {
