@@ -17,10 +17,9 @@ export default function App() {
     };
   });
 
-  const [filter, setFilter] = useState('text');
-  const dynamicFilter = filter.toLowerCase();
-  const showContacts = Object.values(contacts).filter(contact =>
-    contact.name.toLowerCase().includes(dynamicFilter)
+  const [filter, setFilter] = useState('');
+  const showContacts = contacts.filter(contact =>
+    contact.name.toLowerCase().includes(filter.toLowerCase())
   );
 
   const handleDelete = taskID => {
