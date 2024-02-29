@@ -1,6 +1,6 @@
 import './App.css';
 import { useState, useEffect } from 'react';
-import initialPhoneBook from './phonebook.json';
+// import initialPhoneBook from './phonebook.json';
 import ContactForm from './ContactForm/ContactForm';
 import SearchBox from './SearchBox/SearchBox';
 import ContactList from './ContactList/ContactList';
@@ -8,10 +8,8 @@ import ContactList from './ContactList/ContactList';
 const initialObj = [];
 
 export default function App() {
-  // const [contacts, setContacts] = useState(initialPhoneBook);
   const [contacts, setContacts] = useState(() => {
     const contactList = localStorage.getItem('contacts');
-    console.log(contactList == null);
     if (contactList !== null) {
       return JSON.parse(contactList);
     }
