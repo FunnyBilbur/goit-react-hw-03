@@ -15,7 +15,11 @@ export default function ContactForm({ onAdd }) {
   };
   const AddContactSchema = Yup.object().shape({
     name: Yup.string().min(3, 'Too Short!').max(50, 'Too Long!').required('Required'),
-    number: Yup.number().min(3, 'Too Short!').max(50, 'Too Long!').required('Required'),
+    number: Yup.string()
+      .matches(/^[0-9]+$/, 'Must be only digits')
+      .min(3, 'Too Short!')
+      .max(50, 'Too Long!')
+      .required('Required'),
   });
   return (
     <Formik
