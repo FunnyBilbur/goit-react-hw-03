@@ -6,12 +6,13 @@ import * as Yup from 'yup';
 export default function ContactForm({ onAdd }) {
   const nameFieldID = useId();
   const numberFieldID = useId();
-  const handleSubmit = e => {
+  const handleSubmit = (e, actions) => {
     onAdd({
       id: Date.now(),
       name: e.name,
       number: e.number,
     });
+    actions.resetForm();
   };
   const AddContactSchema = Yup.object().shape({
     name: Yup.string().min(3, 'Too Short!').max(50, 'Too Long!').required('Required'),
